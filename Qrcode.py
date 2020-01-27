@@ -6,8 +6,7 @@ import tkinter as tk
 # Use the following vCard v2.1 template.
 
 
-VCARD_TEMPLATE = """BEGIN%3aVCARD%0d%0aVERSION%3a3.0%0d%0aN%3a%s%3b%s%0d%0aORG%3aThe+Telos+Alliance%0d%0aTITLE%3a%s%0d%0aEMAIL%3a%s%0d%0aTEL%3bTYPE%3dCELL%3a%s%0d%0aTEL%3bTYPE%3dWORK%2cVOICE%3a%s%0d%0aTEL%3bTYPE%3dmain%2cVOICE%3a%s%0d%0aNOTE%3aSkype%3A%s%0d%0aURL%3aTelosAlliance.com%0d%0aADR%3a%3b%3b1241+superior+Avenue+E%253bCleveland%253bOH%253b44114%253bUSA%0d%0aEND%3aVCARD%0A&addtext=""".replace('%','%%').replace('%%s', "%s")
-VCARD_TEMPLATE = """BEGIN%3aVCARD%0d%0aVERSION%3a3.0%0d%0aN%3a%s%3b%s%0d%0aORG%3aThe+Telos+Alliance%0d%0aTITLE%3a%s%0d%0aEMAIL%3a%s%0d%0aTEL%3bTYPE%3dCELL%3a%2B%s%0d%0aTEL%3bTYPE%3dWORK%2cVOICE%3a%2B%s%0d%0aTEL%3bTYPE%3dmain%2cVOICE%3a%2B%s%0d%0aNOTE%3aSkype%3A%s%0d%0aURL%3aTelosAlliance.com%0d%0aADR%3a%3b%3b1241+superior+Avenue+E%253bCleveland%253bOH%253b44114%253bUSA%0d%0aEND%3aVCARD%0A&addtext=""".replace('%','%%').replace('%%s', "%s")
+VCARD_TEMPLATE = """BEGIN%3aVCARD%0d%0aVERSION%3a3.0%0d%0aN%3a%s%3b%s%0d%0aORG%3aThe+Telos+Alliance%0d%0aTITLE%3a%s%0d%0aEMAIL%3a%s%0d%0aTEL%3bTYPE%3dCELL%3a%2B%s%0d%0aTEL%3bTYPE%3dWORK%2cVOICE%3a%2B%s%0d%0aTEL%3bTYPE%3dmain%2cVOICE%3a%2B%s%0d%0aNOTE%3aSkype%3A%s%0d%0aURL%3aTelosAlliance.com%0d%0aADR%3a%3b%3b%s%253b%s%253b%s%253b%s%253b%s%0d%0aEND%3aVCARD%0A&addtext=""".replace('%','%%').replace('%%s', "%s")
 
 
 def clear():
@@ -79,11 +78,24 @@ ln.set("Enter Last Name")
 ln.set("eicher")
 tt.set("Enter Job Title")
 tt.set("Director")
+mobile.set("Enter Mobile Number")
 mobile.set("1.216.234.5674")
 direct.set("Enter Direct Number")
-direct.set("19.216.234.6539")
+direct.set("+44.216.234.6539")
 main.set("Enter Main Number")
 main.set("+1.216.234.5674")
+
+#drop down menu
+menuVar = tk.StringVar(root)
+
+# Dictionary with options
+choices = { 'Cleveland','Home','NotSet_3','NotSet_4','NotSet_5'}
+menuVar.set('Cleveland') # set the default option
+
+popupMenu = tk.OptionMenu(root, menuVar, *choices)
+menuLabel = tk.Label(root, text="Choose a branch")
+menuLabel.config(bg = 'lightgrey')
+
 
 #buttons
 btnRun = tk.Button(root, text="Generate", command=clear)
@@ -99,6 +111,9 @@ mbl.pack()
 dir.pack()
 mn.pack()
 
+menuLabel.pack()
+popupMenu.pack()
+
 btnRun.pack()
 
 
@@ -111,8 +126,20 @@ QR_CODE_TEMPLATE = "https://qrickit.com/api/qr.php?d=%s&txtcolor=FFFFFF&fgdcolor
 email = first_name + "." + last_name + "@telosalliance.com"
 skype=last_name + "." +first_name
 
-#phone number formatting
-mobile
+if (menuVar.get() == "Cleveland"):
+    street = "1241+superior+Avenue+E"
+    city = "Cleveland"
+    state = "OH"
+    zip = "44114"
+    country ="USA"
+else:
+    street = "6888+Clubside+Drive"
+    city = "Loveland"
+    state = "OH"
+    zip = "45140"
+    country ="USA"
+
+
 
 vcard = VCARD_TEMPLATE % (last_name,
                           first_name,
@@ -121,7 +148,12 @@ vcard = VCARD_TEMPLATE % (last_name,
                           mobile_number,
                           direct_number,
                           main_number,
-                          skype)
+                          skype,
+                          street,
+                          city,
+                          state,
+                          zip,
+                          country)
 
 # Write the vCard to a file
 '''out_filename = '.'.join([first_name + '-' + last_name, "vcf"])

@@ -8,6 +8,30 @@ import tkinter as tk
 
 VCARD_TEMPLATE = """BEGIN%3aVCARD%0d%0aVERSION%3a3.0%0d%0aN%3a%s%3b%s%0d%0aORG%3aThe+Telos+Alliance%0d%0aTITLE%3a%s%0d%0aEMAIL%3a%s%0d%0aTEL%3bTYPE%3dCELL%3a%2B%s%0d%0aTEL%3bTYPE%3dWORK%2cVOICE%3a%2B%s%0d%0aTEL%3bTYPE%3dmain%2cVOICE%3a%2B%s%0d%0aNOTE%3aSkype%3A%s%0d%0aURL%3aTelosAlliance.com%0d%0aADR%3a%3b%3b%s%253b%s%253b%s%253b%s%253b%s%0d%0aEND%3aVCARD%0A&addtext=""".replace('%','%%').replace('%%s', "%s")
 
+VCARD_TEMPLATE = """{
+  "address": {
+    "street": "%s",
+    "city": "%s",
+    "state": "%s",
+    "country": "%s",
+    "postal_code": %s,
+    "location": {}
+  },
+  "profile_pic": "",
+  "name": "%s %s",
+  "company": "%s",
+  "title": "%s",
+  "email": "%s",
+  "website": "%s",
+  "phone": {
+    "work": "%s",
+    "private": "%s",
+    "mobile": "%s"
+  },
+  "bgColor": "#C03E4A",
+  "additional_info": "%s"
+}"""
+
 
 def clear():
     global first_name
